@@ -1101,9 +1101,9 @@
       }
       if (capAbove > 0) {
         const itc = capAbove * 0.15;
-        const refund = (corpT === 'ccpc' || corpT === 'ecpc') ? itc * 0.40 : 0;
-        totalITC += itc; totalRefund += refund;
-        rows.push({ label: 'Capital exp. — above limit', amount: capAbove, rate: '15%', refundPct: corpT === 'ccpc' ? '40%' : '0%', refund, tag: corpT === 'ccpc' ? 'amber' : 'gray' });
+        totalITC += itc;
+        rows.push({ label: 'Capital exp. — above limit', amount: capAbove, rate: '15%', refundPct: '0%', refund: 0, tag: 'gray' });
+        notes.push('Capital exp. above the $6M limit earns only the 15% basic ITC with no cash refundability — applied against federal tax payable or carried forward 20 years.');
       }
       if (expLimit === 0) notes.push('Phase-out metric exceeds $75M — enhanced 35% limit fully phased out. All expenditures earn only the 15% basic rate.');
 
