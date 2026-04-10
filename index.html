@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SR&ED ITC Calculator — Canada 2024/2025 Rules</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --surface2: #222;
+      --border: rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.14);
+      --text: #f0ede8;
+      --text2: #888;
+      --text3: #555;
+      --green: #3ecf8e;
+      --green-dim: rgba(62,207,142,0.12);
+      --amber: #f5a623;
+      --amber-dim: rgba(245,166,35,0.12);
+      --blue: #4f9cf9;
+      --blue-dim: rgba(79,156,249,0.12);
+      --red: #e05252;
+      --red-dim: rgba(224,82,82,0.12);
+      --radius: 10px;
+      --radius-lg: 14px;
+    }
+
+    body {
+      font-family: 'DM Sans', 'Helvetica Neue', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      line-height: 1.6;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+    .container { max-width: 860px; margin: 0 auto; }
+
+    .share-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      max-width: 860px;
+      margin: 0 auto 1rem;
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--text2);
+      background: var(--blue-dim);
+      border: 1px solid rgba(79,156,249,0.25);
+      border-radius: var(--radius);
+    }
+    .share-banner[hidden] { display: none !important; }
+    .share-banner-text { flex: 1; min-width: 0; }
+    .share-banner-text em { color: var(--text); font-style: normal; }
+    .share-banner-close {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text2);
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .share-banner-close:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+
+    .text-link {
+      font-size: 13px;
+      color: var(--blue);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(79,156,249,0.35);
+      cursor: pointer;
+      background: none;
+      padding: 0;
+      font-family: inherit;
+    }
+    .text-link:hover { color: var(--text); border-bottom-color: var(--text2); }
+
+    header { margin-bottom: 2.5rem; }
+    header h1 { font-size: 1.5rem; font-weight: 500; letter-spacing: -0.02em; }
+    header p { font-size: 0.875rem; color: var(--text2); margin-top: 0.4rem; }
+    .badge {
+      display: inline-block; font-size: 11px; font-weight: 500;
+      padding: 3px 10px; border-radius: 999px;
+      background: var(--green-dim); color: var(--green);
+      border: 1px solid rgba(62,207,142,0.2);
+      margin-left: 10px; vertical-align: middle;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text3);
+      margin-bottom: 1.2rem;
+    }
+
+    /* Toggle buttons */
+    .toggle-group { display: flex; gap: 6px; flex-wrap: wrap; }
+    .toggle-btn {
+      padding: 7px 16px; font-size: 13px; font-weight: 400;
+      border-radius: 8px; border: 1px solid var(--border2);
+      background: transparent; color: var(--text2);
+      cursor: pointer; transition: all 0.15s;
+      font-family: inherit;
+    }
+    .toggle-btn:hover { border-color: rgba(255,255,255,0.25); color: var(--text); }
+    .toggle-btn.active {
+      background: rgba(255,255,255,0.08); color: var(--text);
+      border-color: rgba(255,255,255,0.2); font-weight: 500;
+    }
+
+    /* Sliders */
+    .slider-block { margin-bottom: 1.25rem; }
+    .slider-block:last-child { margin-bottom: 0; }
+    .slider-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+    .slider-label { font-size: 13px; color: var(--text2); }
+    .slider-value { font-size: 13px; font-weight: 500; font-family: 'DM Mono', monospace; color: var(--text); }
+
+    input[type=range] {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 4px; border-radius: 2px;
+      background: var(--border2); outline: none; cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--text); border: none; cursor: pointer;
+      transition: transform 0.1s;
+    }
+    input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+    /* Scenario toggle */
+    .scenario-bar {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+    }
+    .scenario-bar label { font-size: 13px; color: var(--text2); flex: 1; }
+    .switch {
+      position: relative; display: inline-block; width: 40px; height: 22px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .switch-slider {
+      position: absolute; cursor: pointer; inset: 0;
+      background: var(--border2); border-radius: 22px; transition: 0.2s;
+    }
+    .switch-slider::before {
+      content: ''; position: absolute;
+      height: 16px; width: 16px; left: 3px; bottom: 3px;
+      background: var(--text2); border-radius: 50%; transition: 0.2s;
+    }
+    .switch input:checked + .switch-slider { background: rgba(79,156,249,0.4); }
+    .switch input:checked + .switch-slider::before {
+      transform: translateX(18px); background: var(--blue);
+    }
+
+    /* Summary metric cards */
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 1rem; }
+    .metric {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 0.9rem 1rem;
+    }
+    .metric-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .metric-value { font-size: 1.2rem; font-weight: 500; font-family: 'DM Mono', monospace; }
+    .metric-value.green { color: var(--green); }
+    .metric-value.amber { color: var(--amber); }
+    .metric-value.blue { color: var(--blue); }
+
+    /* Breakdown table */
+    .table-wrap { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .table-row {
+      display: grid;
+      grid-template-columns: 2.5fr 1fr 0.8fr 0.8fr 1fr;
+      padding: 10px 14px; font-size: 12.5px;
+      border-bottom: 1px solid var(--border);
+      align-items: center; gap: 8px;
+    }
+    .table-row:last-child { border-bottom: none; }
+    .table-row.header {
+      font-size: 10px; font-weight: 500; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--text3);
+      background: rgba(255,255,255,0.02);
+    }
+    .table-row.total {
+      background: rgba(255,255,255,0.03);
+      font-weight: 500; border-top: 1px solid var(--border2);
+    }
+    .table-row.scenario-row { opacity: 0.6; font-style: italic; }
+
+    /* Scenario comparison chart (CSS bars) */
+    .scenario-chart-wrap {
+      margin-top: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(6px);
+      max-height: 0;
+      transition: opacity 0.45s ease, transform 0.45s ease, max-height 0.55s ease, margin-top 0.45s ease;
+    }
+    .scenario-chart-wrap.scenario-chart-wrap--visible {
+      opacity: 1;
+      transform: translateY(0);
+      max-height: 480px;
+      margin-top: 1.1rem;
+    }
+    .scenario-chart-summary {
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 12px;
+      line-height: 1.45;
+    }
+    .scenario-chart-summary strong { color: var(--green); font-weight: 600; }
+    .scenario-chart-block { margin-bottom: 14px; }
+    .scenario-chart-block:last-child { margin-bottom: 0; }
+    .scenario-chart-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 8px;
+    }
+    .scenario-chart-pair {
+      display: grid;
+      gap: 8px;
+    }
+    .scenario-chart-row {
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+    }
+    .scenario-chart-row .bar-legend {
+      font-size: 11px;
+      color: var(--text3);
+    }
+    .scenario-chart-row .bar-legend.new { color: var(--green); }
+    .scenario-chart-track {
+      height: 14px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .scenario-chart-fill {
+      height: 100%;
+      border-radius: 5px;
+      width: 0;
+      transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .scenario-chart-fill.old { background: var(--text3); }
+    .scenario-chart-fill.new { background: var(--green); }
+    .scenario-chart-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      min-width: 5.5rem;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .pill {
+      display: inline-block; font-size: 10px; font-weight: 500;
+      padding: 2px 7px; border-radius: 999px;
+    }
+    .pill-green { background: var(--green-dim); color: var(--green); }
+    .pill-amber { background: var(--amber-dim); color: var(--amber); }
+    .pill-red { background: var(--red-dim); color: var(--red); }
+    .pill-gray { background: rgba(255,255,255,0.06); color: var(--text2); }
+
+    /* Provincial section */
+    .prov-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .prov-row {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 8px 12px; font-size: 13px;
+    }
+    .prov-name { color: var(--text2); }
+    .prov-val { font-family: 'DM Mono', monospace; font-weight: 500; }
+
+    .prov-select-wrap { margin-bottom: 1rem; }
+    .prov-select-wrap label { display: block; margin-bottom: 8px; }
+    .prov-select {
+      width: 100%; max-width: 420px;
+      padding: 10px 12px; font-size: 14px; font-family: inherit;
+      border-radius: var(--radius); border: 1px solid var(--border2);
+      background: var(--surface2); color: var(--text);
+      cursor: pointer;
+    }
+    .prov-select:focus { outline: none; border-color: rgba(79,156,249,0.5); }
+    .prov-detail {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      background: var(--surface2);
+      margin-bottom: 1rem;
+    }
+    .prov-detail dl {
+      display: grid;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .prov-detail dt { color: var(--text3); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .prov-detail dd { color: var(--text); margin: 0; line-height: 1.5; }
+    .prov-detail .prov-amount {
+      font-family: 'DM Mono', monospace; font-size: 1.25rem; font-weight: 500;
+      color: var(--green);
+    }
+    .prov-detail .prov-phase-list { margin: 0.35rem 0 0 1rem; padding: 0; color: var(--text2); font-size: 12px; }
+    .metric-value.violet { color: #a78bfa; }
+
+    /* Action buttons */
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; font-size: 13px; font-weight: 500;
+      border-radius: var(--radius); border: 1px solid var(--border2);
+      background: transparent; color: var(--text2);
+      cursor: pointer; font-family: inherit; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn:hover { background: rgba(255,255,255,0.05); color: var(--text); border-color: rgba(255,255,255,0.2); }
+    .btn svg { width: 14px; height: 14px; }
+    .btn-primary { background: rgba(255,255,255,0.07); color: var(--text); border-color: rgba(255,255,255,0.15); }
+
+    .note-text { font-size: 12px; color: var(--text3); line-height: 1.7; margin-top: 0.75rem; }
+
+    .share-toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      background: var(--surface); border: 1px solid var(--border2);
+      border-radius: var(--radius); padding: 10px 16px;
+      font-size: 13px; color: var(--green);
+      opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    }
+    .share-toast.show { opacity: 1; }
+
+    .delta-badge {
+      display: inline-block; font-size: 11px; font-family: 'DM Mono', monospace;
+      padding: 2px 7px; border-radius: 999px;
+      background: var(--blue-dim); color: var(--blue); margin-left: 8px;
+    }
+
+    #print-report { display: none; }
+
+    @media print {
+      @page { margin: 1.25cm; }
+      body {
+        background: #fff !important;
+        color: #000 !important;
+        padding: 0 !important;
+      }
+      .container,
+      .share-toast,
+      .share-banner { display: none !important; }
+      #print-report {
+        display: block !important;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        font-size: 10.5pt;
+        line-height: 1.45;
+        color: #000;
+        background: #fff;
+        max-width: 100%;
+      }
+      #print-report h1 {
+        font-size: 18pt;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        margin: 0 0 4px 0;
+      }
+      #print-report .pr-subtitle {
+        font-size: 9.5pt;
+        color: #333;
+        margin: 0 0 16px 0;
+      }
+      #print-report .pr-meta {
+        font-size: 9.5pt;
+        color: #333;
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #ccc;
+      }
+      #print-report .pr-section {
+        margin-bottom: 14px;
+        break-inside: avoid;
+      }
+      #print-report .pr-section-title {
+        font-size: 8.5pt;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #444;
+        margin: 0 0 8px 0;
+      }
+      #print-report .pr-kv { margin: 0; padding: 0; list-style: none; }
+      #print-report .pr-kv li {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 4px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 10pt;
+      }
+      #print-report .pr-kv li span:first-child { color: #333; }
+      #print-report .pr-kv li span:last-child { text-align: right; font-weight: 500; }
+      #print-report table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 9.5pt;
+        margin-top: 6px;
+      }
+      #print-report th,
+      #print-report td {
+        border: 1px solid #ccc;
+        padding: 6px 8px;
+        text-align: left;
+        vertical-align: top;
+      }
+      #print-report th {
+        background: #f5f5f5;
+        font-size: 8pt;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #444;
+      }
+      #print-report td.num,
+      #print-report th.num { text-align: right; font-variant-numeric: tabular-nums; }
+      #print-report tr.total td { font-weight: 600; background: #fafafa; }
+      #print-report tr.scenario td { font-style: italic; color: #555; }
+      #print-report .pr-notes {
+        font-size: 9pt;
+        color: #333;
+        margin-top: 8px;
+      }
+      #print-report .pr-disclaimer {
+        margin-top: 20px;
+        padding-top: 12px;
+        border-top: 1px solid #ccc;
+        font-size: 8.5pt;
+        color: #444;
+        line-height: 1.5;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="share-banner" class="share-banner" hidden role="status">
+    <span class="share-banner-text" id="share-banner-text"></span>
+    <button type="button" class="share-banner-close" id="share-banner-close" aria-label="Dismiss">×</button>
+  </div>
+
+  <div class="container">
+    <header>
+      <h1>SR&amp;ED ITC Calculator <span class="badge">2024/2025 Rules</span></h1>
+      <p>Federal investment tax credit modelling — Fall Economic Statement 2024 + Budget 2025</p>
+    </header>
+
+    <!-- Corp Type -->
+    <div class="card">
+      <div class="card-title">Corporation type</div>
+      <div class="toggle-group" id="corp-toggle">
+        <button class="toggle-btn active" data-val="ccpc">CCPC</button>
+        <button class="toggle-btn" data-val="ecpc">Eligible public corp (ECPC)</button>
+        <button class="toggle-btn" data-val="other">Other corporation</button>
+      </div>
+    </div>
+
+    <!-- Expenditures -->
+    <div class="card">
+      <div class="card-title">SR&amp;ED Expenditures</div>
+      <div class="slider-block">
+        <div class="slider-header">
+          <span class="slider-label">Current expenditures (wages, materials, contracts)</span>
+          <span class="slider-value" id="v-current">$4,000,000</span>
+        </div>
+        <input type="range" id="s-current" min="0" max="12000000" step="100000" value="4000000">
+      </div>
+      <div class="slider-block">
+        <div class="slider-header">
+          <span class="slider-label">Capital expenditures (equipment, leases) — post Dec 15 2024</span>
+          <span class="slider-value" id="v-capital">$1,000,000</span>
+        </div>
+        <input type="range" id="s-capital" min="0" max="6000000" step="100000" value="1000000">
+      </div>
+    </div>
+
+    <!-- Phase-out -->
+    <div class="card">
+      <div class="card-title">Phase-out metric</div>
+      <div class="toggle-group" id="phase-toggle" style="margin-bottom:1.2rem">
+        <button class="toggle-btn active" data-val="capital">Taxable capital (default)</button>
+        <button class="toggle-btn" data-val="revenue">Avg. gross revenue — elected</button>
+      </div>
+      <div class="slider-block">
+        <div class="slider-header">
+          <span class="slider-label" id="phase-label">Prior year taxable capital (associated group)</span>
+          <span class="slider-value" id="v-phase">$0</span>
+        </div>
+        <input type="range" id="s-phase" min="0" max="90000000" step="500000" value="0">
+      </div>
+    </div>
+
+    <!-- Scenario comparison -->
+    <div class="scenario-bar">
+      <label>Show scenario comparison — old rules ($3M limit) vs. new rules ($6M limit)</label>
+      <label class="switch">
+        <input type="checkbox" id="scenario-toggle">
+        <span class="switch-slider"></span>
+      </label>
+    </div>
+
+    <!-- Results -->
+    <div class="card">
+      <div class="card-title">Federal ITC summary</div>
+      <div class="metrics" id="summary-cards"></div>
+      <div class="table-wrap" id="breakdown-table"></div>
+      <div id="scenario-chart-wrap" class="scenario-chart-wrap" hidden></div>
+      <p class="note-text" id="notes-area"></p>
+    </div>
+
+    <!-- Provincial credits -->
+    <div class="card">
+      <div class="card-title">Provincial credits — estimated</div>
+      <div class="prov-select-wrap">
+        <label class="slider-label" for="prov-select">Province for detailed estimate</label>
+        <select id="prov-select" class="prov-select" aria-label="Select province">
+          <option value="">All provinces — overview grid</option>
+          <option value="on">Ontario</option>
+          <option value="qc">Quebec</option>
+          <option value="bc">British Columbia</option>
+          <option value="ab">Alberta</option>
+          <option value="mb">Manitoba</option>
+          <option value="sk">Saskatchewan</option>
+          <option value="nb">New Brunswick</option>
+          <option value="ns">Nova Scotia</option>
+          <option value="pe">Prince Edward Island</option>
+          <option value="nl">Newfoundland and Labrador</option>
+        </select>
+      </div>
+      <div id="prov-detail" class="prov-detail" hidden></div>
+      <div class="prov-grid" id="prov-grid"></div>
+      <p class="note-text" id="prov-footnote">Provincial rates vary by eligible expenditure type, taxable income, and other criteria. These are indicative estimates only. Quebec uses an assumed wage share of current expenditures for illustration. Consult a tax advisor for province-specific claims.</p>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="btn btn-primary" onclick="exportPDF()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 1h6l3 3v10a1 1 0 01-1 1H4a1 1 0 01-1-1V2a1 1 0 011-1z"/><path d="M9 1v4h3M5 9h6M5 11.5h4"/></svg>
+        Export PDF
+      </button>
+      <button class="btn" onclick="copyShareLink()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="3" r="1.5"/><circle cx="12" cy="13" r="1.5"/><circle cx="4" cy="8" r="1.5"/><path d="M5.5 7.1l5-2.7M5.5 9l5 2.7"/></svg>
+        Copy share link
+      </button>
+      <button class="btn" onclick="copySummaryText()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h10v10H3zM6 6h4M6 9h4"/></svg>
+        Copy summary text
+      </button>
+      <button type="button" class="text-link reset-defaults" id="reset-defaults-link">Reset to defaults</button>
+      <button class="btn" onclick="resetAll()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8a6 6 0 106-6H5M2 5V2m0 3H5"/></svg>
+        Reset
+      </button>
+    </div>
+  </div>
+
+  <div id="print-report" aria-hidden="true"></div>
+
+  <div class="share-toast" id="toast">Link copied to clipboard</div>
+
+  <script>
+    // ─── State ───────────────────────────────────────────────────────────────
+    let corpType = 'ccpc';
+    let phaseMethod = 'capital';
+    let showScenario = false;
+    let selectedProvince = '';
+
+    /** Share of current expenditures treated as wages for Quebec (no wage split in inputs). */
+    const QC_WAGE_SHARE = 0.55;
+
+    // ─── Fallback grid — all provinces, conservative where noted ─────────────
+    const provinces = [
+      { name: 'Ontario', rate: 0.08, note: 'OITC' },
+      { name: 'Quebec', rate: 0.30, note: 'wages only' },
+      { name: 'British Columbia', rate: 0.10, note: 'SR&ED' },
+      { name: 'Alberta', rate: 0.08, note: 'AITC' },
+      { name: 'Manitoba', rate: 0.15, note: 'MRITC' },
+      { name: 'Saskatchewan', rate: 0.10, note: 'placeholder' },
+      { name: 'New Brunswick', rate: 0.10, note: 'placeholder' },
+      { name: 'Nova Scotia', rate: 0.10, note: 'placeholder' },
+      { name: 'Prince Edward Island', rate: 0.10, note: 'placeholder' },
+      { name: 'Newfoundland and Labrador', rate: 0.10, note: 'placeholder' },
+    ];
+
+    function linearPhaseOut(val, low, high) {
+      if (val <= low) return 1;
+      if (val >= high) return 0;
+      return 1 - (val - low) / (high - low);
+    }
+
+    /**
+     * Provincial credit estimate + cash refund for combined total.
+     * phaseVal / phaseMethod follow federal inputs (capital vs revenue).
+     */
+    function computeProvincialDetail(provId, current, capital, phaseVal, phaseMethod, corpT) {
+      const phaseOuts = [];
+      let name = '';
+      let rateText = '';
+      let appliesTo = '';
+      let credit = 0;
+      let cashRefund = 0;
+      let refundLabel = '';
+      let refundDetail = '';
+
+      if (provId === 'on') {
+        name = 'Ontario';
+        rateText = '8%';
+        appliesTo = 'Ontario Innovation Tax Credit (OITC) on current expenditures, annual ceiling $3M of eligible expenditures.';
+        const eligibleCurrent = Math.min(current, 3000000);
+        credit = eligibleCurrent * 0.08;
+        if (phaseMethod === 'capital') {
+          const f = linearPhaseOut(phaseVal, 25e6, 50e6);
+          credit *= f;
+          phaseOuts.push('Taxable capital (associated group): credit phased out linearly between $25M and $50M (applied when phase-out metric is taxable capital).');
+        } else {
+          phaseOuts.push('Taxable capital phase-out ($25M–$50M): not applied while phase-out metric is set to revenue — switch to taxable capital to model.');
+        }
+        phaseOuts.push('Taxable income: OITC phases out between $500K and $800K of Ontario taxable income — not modeled here (no taxable income input).');
+        cashRefund = credit;
+        refundLabel = 'Refundable';
+        refundDetail = 'OITC is generally refundable for qualifying corporations subject to phase-outs.';
+      } else if (provId === 'qc') {
+        name = 'Quebec';
+        rateText = '30%';
+        const wages = current * QC_WAGE_SHARE;
+        appliesTo = `Quebec SR&ED wage credit on eligible wages only (materials, contracts, and capital excluded). Wages estimated as ${(QC_WAGE_SHARE * 100).toFixed(0)}% of current expenditures.`;
+        credit = wages * 0.30;
+        if (phaseMethod === 'capital') {
+          const f = linearPhaseOut(phaseVal, 50e6, 75e6);
+          credit *= f;
+          phaseOuts.push('Asset-based reduction (illustrative): linear phase-out for taxable capital between $50M and $75M when phase-out metric is taxable capital.');
+        } else {
+          phaseOuts.push('Asset-based phase-out: not applied while phase-out metric is revenue — switch to taxable capital for a simplified asset phase-out.');
+        }
+        const ccpc = corpT === 'ccpc';
+        cashRefund = ccpc ? credit : 0;
+        refundLabel = ccpc ? 'Refundable (CCPC)' : 'Verify (non-CCPC)';
+        refundDetail = ccpc
+          ? 'Treated as fully refundable for qualifying CCPCs; verify eligibility.'
+          : 'Quebec provincial treatment for non-CCPCs varies; cash refund shown as $0 pending review.';
+      } else if (provId === 'bc') {
+        name = 'British Columbia';
+        rateText = '10%';
+        const qualified = current + capital;
+        appliesTo = 'BC SR&ED tax credit on qualified SR&ED expenditures (current and capital treated as qualified pool for this estimate).';
+        credit = qualified * 0.10;
+        cashRefund = 0;
+        refundLabel = 'Non-refundable';
+        refundDetail = 'BC credits are generally non-refundable ITCs (carryforward/carryback rules apply).';
+        phaseOuts.push('No provincial phase-out modeled for BC in this calculator.');
+      } else if (provId === 'ab') {
+        name = 'Alberta';
+        rateText = '8%';
+        appliesTo = 'Alberta Innovation Tax Credit (AITC) on eligible current expenditures.';
+        credit = current * 0.08;
+        cashRefund = credit;
+        refundLabel = 'Refundable';
+        refundDetail = 'AITC is generally treated as a refundable credit for qualifying corporations.';
+        phaseOuts.push('Subject to Alberta-specific eligibility; no numeric phase-out modeled.');
+      } else if (provId === 'mb') {
+        name = 'Manitoba';
+        rateText = '15%';
+        appliesTo = 'Manitoba SR&ED tax credit (MRITC) on eligible expenditures with a $2M annual expenditure limit for the enhanced rate.';
+        const eligible = Math.min(current, 2000000);
+        credit = eligible * 0.15;
+        cashRefund = credit;
+        refundLabel = 'Refundable';
+        refundDetail = 'Shown as refundable up to the modeled expenditure cap.';
+        phaseOuts.push('Expenditures above $2M may attract a lower rate — not split in this model.');
+      } else {
+        const placeholder = {
+          sk: 'Saskatchewan',
+          nb: 'New Brunswick',
+          ns: 'Nova Scotia',
+          pe: 'Prince Edward Island',
+          nl: 'Newfoundland and Labrador',
+        }[provId];
+        name = placeholder || 'Province';
+        rateText = '10%';
+        appliesTo = 'Conservative placeholder: 10% on current expenditures (verify provincial program rules).';
+        credit = current * 0.10;
+        cashRefund = credit;
+        refundLabel = 'Refundable (placeholder)';
+        refundDetail = 'Placeholder assumption; confirm rate and refundability for your situation.';
+        phaseOuts.push('Detailed provincial rules not modeled — use as a rough order of magnitude only.');
+      }
+
+      return {
+        name, rateText, appliesTo, creditAmount: credit, cashRefund,
+        refundLabel, refundDetail, phaseOuts,
+      };
+    }
+
+    // ─── Helpers ─────────────────────────────────────────────────────────────
+    const fmt = n => '$' + Math.round(n).toLocaleString('en-CA');
+    const fmtShort = n => {
+      if (Math.abs(n) >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+      if (Math.abs(n) >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+      return '$' + Math.round(n);
+    };
+
+    function getExpLimit(phaseVal, maxLimit) {
+      const PHASE_LOW = 15000000;
+      const PHASE_HIGH = 75000000;
+      if (phaseVal <= PHASE_LOW) return maxLimit;
+      if (phaseVal >= PHASE_HIGH) return 0;
+      return maxLimit * (1 - (phaseVal - PHASE_LOW) / (PHASE_HIGH - PHASE_LOW));
+    }
+
+    function computeITC(current, capital, phaseVal, corpT, maxLimit) {
+      if (corpT === 'other') {
+        const itc = (current + capital) * 0.15;
+        return {
+          rows: [
+            { label: 'Current expenditures', amount: current, rate: '15%', refundPct: '0%', refund: 0, tag: 'gray' },
+            ...(capital > 0 ? [{ label: 'Capital expenditures', amount: capital, rate: '15%', refundPct: '0%', refund: 0, tag: 'gray' }] : []),
+          ],
+          totalITC: itc, totalRefund: 0, expLimit: 0,
+          notes: ['Non-CCPC/ECPC corporations access only the 15% basic rate with no refundability. ITCs carry back 3 years or forward 20.']
+        };
+      }
+
+      const expLimit = getExpLimit(phaseVal, maxLimit);
+      const currentWithin = Math.min(current, expLimit);
+      const currentAbove = Math.max(0, current - expLimit);
+      const capWithin = Math.min(capital, Math.max(0, expLimit - current));
+      const capAbove = capital - capWithin;
+
+      let rows = [], totalITC = 0, totalRefund = 0, notes = [];
+
+      if (currentWithin > 0) {
+        const itc = currentWithin * 0.35;
+        totalITC += itc; totalRefund += itc;
+        rows.push({ label: 'Current exp. — within limit', amount: currentWithin, rate: '35%', refundPct: '100%', refund: itc, tag: 'green' });
+      }
+      if (capWithin > 0) {
+        const itc = capWithin * 0.35;
+        const refund = itc * 0.40;
+        totalITC += itc; totalRefund += refund;
+        rows.push({ label: 'Capital exp. — within limit', amount: capWithin, rate: '35%', refundPct: '40%', refund, tag: 'amber' });
+        notes.push(`Capital exp. earns 35% ITC but is only 40% cash-refundable. The remaining ${fmt(itc * 0.60)} is a non-refundable carry-forward.`);
+      }
+      if (currentAbove > 0) {
+        const itc = currentAbove * 0.15;
+        const refund = corpT === 'ccpc' ? itc * 0.40 : 0;
+        totalITC += itc; totalRefund += refund;
+        rows.push({ label: 'Current exp. — above limit', amount: currentAbove, rate: '15%', refundPct: corpT === 'ccpc' ? '40%' : '0%', refund, tag: corpT === 'ccpc' ? 'amber' : 'gray' });
+      }
+      if (capAbove > 0) {
+        const itc = capAbove * 0.15;
+        const refund = corpT === 'ccpc' ? itc * 0.40 : 0;
+        totalITC += itc; totalRefund += refund;
+        rows.push({ label: 'Capital exp. — above limit', amount: capAbove, rate: '15%', refundPct: corpT === 'ccpc' ? '40%' : '0%', refund, tag: corpT === 'ccpc' ? 'amber' : 'gray' });
+      }
+      if (expLimit === 0) notes.push('Phase-out metric exceeds $75M — enhanced 35% limit fully phased out. All expenditures earn only the 15% basic rate.');
+
+      return { rows, totalITC, totalRefund, expLimit, notes };
+    }
+
+    // ─── Main render ─────────────────────────────────────────────────────────
+    function calc() {
+      const current = +document.getElementById('s-current').value;
+      const capital = +document.getElementById('s-capital').value;
+      const phaseVal = +document.getElementById('s-phase').value;
+      const total = current + capital;
+
+      const newResult = computeITC(current, capital, phaseVal, corpType, 6000000);
+      const oldResult = showScenario ? computeITC(current, capital, phaseVal, corpType, 3000000) : null;
+
+      const effRate = total > 0 ? (newResult.totalRefund / total * 100).toFixed(1) : '0.0';
+      const delta = oldResult ? newResult.totalRefund - oldResult.totalRefund : 0;
+
+      selectedProvince = document.getElementById('prov-select').value;
+      const provDetail = selectedProvince
+        ? computeProvincialDetail(selectedProvince, current, capital, phaseVal, phaseMethod, corpType)
+        : null;
+      const provCashRefund = provDetail ? provDetail.cashRefund : 0;
+      const combinedCash = newResult.totalRefund + provCashRefund;
+
+      // Metric cards
+      let deltaHTML = oldResult ? `<span class="delta-badge">+${fmtShort(delta)} vs old</span>` : '';
+      document.getElementById('summary-cards').innerHTML = `
+        <div class="metric"><div class="metric-label">Total SR&amp;ED spend</div><div class="metric-value">${fmtShort(total)}</div></div>
+        <div class="metric"><div class="metric-label">Expenditure limit</div><div class="metric-value blue">${corpType === 'other' ? 'N/A' : fmtShort(newResult.expLimit)}</div></div>
+        <div class="metric"><div class="metric-label">ITC earned</div><div class="metric-value">${fmtShort(newResult.totalITC)}</div></div>
+        <div class="metric"><div class="metric-label">Federal cash refund${deltaHTML}</div><div class="metric-value green">${fmtShort(newResult.totalRefund)}</div></div>
+        <div class="metric"><div class="metric-label">Combined total (Fed + prov. cash)</div><div class="metric-value violet">${fmtShort(combinedCash)}</div></div>
+        <div class="metric"><div class="metric-label">Effective cash rate</div><div class="metric-value amber">${effRate}%</div></div>
+      `;
+
+      // Table
+      const pillMap = { green: 'pill-green', amber: 'pill-amber', gray: 'pill-gray', red: 'pill-red' };
+      let tableHTML = `<div class="table-row header"><span>Bucket</span><span>Amount</span><span>ITC rate</span><span>% refund</span><span>Cash refund</span></div>`;
+      newResult.rows.forEach(r => {
+        tableHTML += `<div class="table-row">
+          <span>${r.label} <span class="pill ${pillMap[r.tag]}">${r.refundPct}</span></span>
+          <span>${fmt(r.amount)}</span><span>${r.rate}</span><span>${r.refundPct}</span><span>${fmt(r.refund)}</span>
+        </div>`;
+      });
+      tableHTML += `<div class="table-row total"><span>New rules total</span><span>${fmt(total)}</span><span>—</span><span>—</span><span>${fmt(newResult.totalRefund)}</span></div>`;
+
+      if (oldResult) {
+        tableHTML += `<div class="table-row scenario-row total"><span>Old rules total ($3M limit)</span><span>${fmt(total)}</span><span>—</span><span>—</span><span>${fmt(oldResult.totalRefund)}</span></div>`;
+        tableHTML += `<div class="table-row total" style="color:var(--blue)"><span>Difference (new − old)</span><span>—</span><span>—</span><span>—</span><span>+${fmt(delta)}</span></div>`;
+      }
+      document.getElementById('breakdown-table').innerHTML = tableHTML;
+
+      document.getElementById('notes-area').textContent = newResult.notes.join(' ');
+
+      // Provincial — detail panel vs fallback grid
+      const provDetailEl = document.getElementById('prov-detail');
+      const provGridEl = document.getElementById('prov-grid');
+      if (selectedProvince && provDetail) {
+        const pd = provDetail;
+        const phaseList = pd.phaseOuts.length
+          ? `<ul class="prov-phase-list">${pd.phaseOuts.map(t => `<li>${t}</li>`).join('')}</ul>`
+          : '';
+        provDetailEl.hidden = false;
+        provGridEl.style.display = 'none';
+        provDetailEl.innerHTML = `
+          <dl>
+            <dt>${pd.name} — rate &amp; base</dt>
+            <dd><strong>${pd.rateText}</strong> on ${pd.appliesTo}</dd>
+            <dt>Provincial credit (estimated)</dt>
+            <dd class="prov-amount">${fmt(pd.creditAmount)}</dd>
+            <dt>Refundability</dt>
+            <dd><strong>${pd.refundLabel}</strong> — ${pd.refundDetail}</dd>
+            <dt>Phase-outs &amp; notes</dt>
+            <dd>${phaseList || 'None modeled beyond inputs above.'}</dd>
+            <dt>Federal + provincial cash (this province)</dt>
+            <dd class="prov-amount">${fmt(combinedCash)}</dd>
+          </dl>
+        `;
+      } else {
+        provDetailEl.hidden = true;
+        provDetailEl.innerHTML = '';
+        provGridEl.style.display = 'grid';
+        let provHTML = '';
+        provinces.forEach(p => {
+          const provRefund = current * p.rate;
+          provHTML += `<div class="prov-row"><span class="prov-name">${p.name} <span style="font-size:10px;color:var(--text3)">(${p.note})</span></span><span class="prov-val" style="color:var(--green)">${fmt(provRefund)}</span></div>`;
+        });
+        provGridEl.innerHTML = provHTML;
+      }
+
+      renderChart(oldResult, newResult, total);
+
+      saveToURL();
+    }
+
+    function renderChart(oldResult, newResult, total) {
+      const wrap = document.getElementById('scenario-chart-wrap');
+
+      if (!oldResult) {
+        wrap.classList.remove('scenario-chart-wrap--visible');
+        wrap.hidden = true;
+        wrap.innerHTML = '';
+        return;
+      }
+
+      const oldITC = oldResult.totalITC;
+      const newITC = newResult.totalITC;
+      const oldCash = oldResult.totalRefund;
+      const newCash = newResult.totalRefund;
+      const oldEff = total > 0 ? (oldCash / total) * 100 : 0;
+      const newEff = total > 0 ? (newCash / total) * 100 : 0;
+
+      const maxITC = Math.max(oldITC, newITC, 1);
+      const maxCash = Math.max(oldCash, newCash, 1);
+      const maxEff = Math.max(oldEff, newEff, 0.1);
+
+      const pct = (a, m) => Math.min(100, (a / m) * 100);
+
+      const delta = newCash - oldCash;
+      let summaryText;
+      if (delta > 0) {
+        summaryText = `You gain <strong>${fmt(delta)}</strong> more in cash refunds under the new rules.`;
+      } else if (delta < 0) {
+        summaryText = `Under these inputs, cash refunds are <strong>${fmt(-delta)}</strong> lower under the new rules than under the old $3M limit.`;
+      } else {
+        summaryText = 'Cash refunds are the <strong>same</strong> under old and new rules for these inputs.';
+      }
+
+      const row = (label, oldV, newV, maxV, fmtVal, isPct) => {
+        const o = pct(oldV, maxV);
+        const n = pct(newV, maxV);
+        const ov = isPct ? oldV.toFixed(1) + '%' : fmtVal(oldV);
+        const nv = isPct ? newV.toFixed(1) + '%' : fmtVal(newV);
+        return `
+          <div class="scenario-chart-block">
+            <div class="scenario-chart-label">${label}</div>
+            <div class="scenario-chart-pair">
+              <div class="scenario-chart-row">
+                <span class="bar-legend">Old ($3M)</span>
+                <div class="scenario-chart-track"><div class="scenario-chart-fill old" data-pct="${o}"></div></div>
+                <span class="scenario-chart-val">${ov}</span>
+              </div>
+              <div class="scenario-chart-row">
+                <span class="bar-legend new">New ($6M)</span>
+                <div class="scenario-chart-track"><div class="scenario-chart-fill new" data-pct="${n}"></div></div>
+                <span class="scenario-chart-val">${nv}</span>
+              </div>
+            </div>
+          </div>`;
+      };
+
+      wrap.innerHTML = `
+        <p class="scenario-chart-summary">${summaryText}</p>
+        ${row('ITC earned', oldITC, newITC, maxITC, v => fmt(v), false)}
+        ${row('Cash refund', oldCash, newCash, maxCash, v => fmt(v), false)}
+        ${row('Effective cash rate', oldEff, newEff, maxEff, () => '', true)}
+      `;
+
+      wrap.hidden = false;
+      wrap.querySelectorAll('.scenario-chart-fill').forEach(el => { el.style.width = '0%'; });
+      requestAnimationFrame(() => {
+        wrap.classList.add('scenario-chart-wrap--visible');
+        wrap.querySelectorAll('.scenario-chart-fill[data-pct]').forEach(el => {
+          el.style.width = el.getAttribute('data-pct') + '%';
+        });
+      });
+    }
+
+    // ─── URL state & share text ───────────────────────────────────────────────
+    const CORP_LABEL_LONG = { ccpc: 'CCPC', ecpc: 'Eligible public corp (ECPC)', other: 'Other corporation' };
+    const CORP_LABEL_SHORT = { ccpc: 'CCPC', ecpc: 'ECPC', other: 'Other' };
+
+    function getStatePayload() {
+      return {
+        corp: corpType,
+        phase: phaseMethod,
+        current: String(document.getElementById('s-current').value),
+        capital: String(document.getElementById('s-capital').value),
+        phaseval: String(document.getElementById('s-phase').value),
+        scenario: showScenario ? '1' : '0',
+        prov: document.getElementById('prov-select').value,
+      };
+    }
+
+    function getRawQueryString() {
+      return new URLSearchParams(getStatePayload()).toString();
+    }
+
+    /** Query string only: ?a=b&... or ?s=base64 when raw length exceeds 200 chars. */
+    function getShareSearchString() {
+      const raw = getRawQueryString();
+      const withQ = raw ? '?' + raw : '';
+      if (withQ.length > 200) {
+        const b64 = btoa(JSON.stringify(getStatePayload()));
+        return '?s=' + encodeURIComponent(b64);
+      }
+      return withQ;
+    }
+
+    function saveToURL() {
+      const search = getShareSearchString();
+      history.replaceState(null, '', location.pathname + search + location.hash);
+    }
+
+    function getShareHref() {
+      try {
+        const u = new URL(location.href);
+        u.search = getShareSearchString();
+        return u.href;
+      } catch {
+        return location.pathname + getShareSearchString() + location.hash;
+      }
+    }
+
+    function applyStateFromObject(state) {
+      if (!state || typeof state !== 'object') return;
+      if (state.corp) {
+        corpType = state.corp;
+        document.querySelectorAll('#corp-toggle .toggle-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.val === corpType);
+        });
+      }
+      if (state.phase) {
+        phaseMethod = state.phase;
+        document.querySelectorAll('#phase-toggle .toggle-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.val === phaseMethod);
+        });
+        document.getElementById('phase-label').textContent = phaseMethod === 'capital'
+          ? 'Prior year taxable capital (associated group)'
+          : 'Average gross revenue — last 3 years (consolidated)';
+      }
+      if (state.current != null && state.current !== '') {
+        document.getElementById('s-current').value = state.current;
+        document.getElementById('v-current').textContent = fmt(+state.current);
+      }
+      if (state.capital != null && state.capital !== '') {
+        document.getElementById('s-capital').value = state.capital;
+        document.getElementById('v-capital').textContent = fmt(+state.capital);
+      }
+      if (state.phaseval != null && state.phaseval !== '') {
+        document.getElementById('s-phase').value = state.phaseval;
+        document.getElementById('v-phase').textContent = fmt(+state.phaseval);
+      }
+      if (state.scenario === '1') {
+        showScenario = true;
+        document.getElementById('scenario-toggle').checked = true;
+      } else if (state.scenario === '0') {
+        showScenario = false;
+        document.getElementById('scenario-toggle').checked = false;
+      }
+      if (state.prov !== undefined && state.prov !== null) {
+        const sel = document.getElementById('prov-select');
+        if ([...sel.options].some(o => o.value === state.prov)) {
+          sel.value = state.prov;
+          selectedProvince = state.prov;
+        }
+      }
+    }
+
+    function loadFromURL() {
+      const p = new URLSearchParams(location.search);
+      const encoded = p.get('s');
+      if (encoded) {
+        try {
+          const json = atob(decodeURIComponent(encoded));
+          applyStateFromObject(JSON.parse(json));
+          return;
+        } catch (e) {
+          console.warn('Invalid shared state (s=)', e);
+        }
+      }
+      applyStateFromObject({
+        corp: p.get('corp') || undefined,
+        phase: p.get('phase') || undefined,
+        current: p.get('current') != null ? p.get('current') : undefined,
+        capital: p.get('capital') != null ? p.get('capital') : undefined,
+        phaseval: p.get('phaseval') != null ? p.get('phaseval') : undefined,
+        scenario: p.get('scenario') || undefined,
+        prov: p.has('prov') ? p.get('prov') : undefined,
+      });
+    }
+
+    function buildHumanSummary(includeViewUrl) {
+      const current = +document.getElementById('s-current').value;
+      const capital = +document.getElementById('s-capital').value;
+      const phaseVal = +document.getElementById('s-phase').value;
+      const newResult = computeITC(current, capital, phaseVal, corpType, 6000000);
+      const line = `SR&ED ITC Calculator — ${CORP_LABEL_LONG[corpType]}, ${fmt(current)} current + ${fmt(capital)} capital = ${fmt(newResult.totalRefund)} federal cash refund.`;
+      if (!includeViewUrl) return line;
+      saveToURL();
+      return line + ' View: ' + getShareHref();
+    }
+
+    function getShortScenarioDescription() {
+      const current = +document.getElementById('s-current').value;
+      const capital = +document.getElementById('s-capital').value;
+      const phaseVal = +document.getElementById('s-phase').value;
+      const sel = document.getElementById('prov-select');
+      const provLabel = sel.value ? sel.selectedOptions[0].textContent.trim() : 'all provinces overview';
+      return [
+        CORP_LABEL_SHORT[corpType] || corpType,
+        fmt(current) + ' current',
+        fmt(capital) + ' capital',
+        'phase ' + fmt(phaseVal),
+        phaseMethod === 'capital' ? 'taxable capital metric' : 'revenue metric',
+        showScenario ? 'compare on' : 'compare off',
+        provLabel,
+      ].join(', ');
+    }
+
+    function showShareBanner() {
+      const banner = document.getElementById('share-banner');
+      const textEl = document.getElementById('share-banner-text');
+      if (!banner || !textEl) return;
+      textEl.innerHTML = 'Viewing a shared scenario — <em>' + getShortScenarioDescription() + '</em> — Edit to customise';
+      banner.hidden = false;
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // ─── Actions ──────────────────────────────────────────────────────────────
+    function copyShareLink() {
+      const text = buildHumanSummary(true);
+      navigator.clipboard.writeText(text).then(() => showToast('Link copied to clipboard'));
+    }
+
+    function copySummaryText() {
+      const text = buildHumanSummary(false);
+      navigator.clipboard.writeText(text).then(() => showToast('Summary copied'));
+    }
+
+    function exportPDF() {
+      const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+      const current = +document.getElementById('s-current').value;
+      const capital = +document.getElementById('s-capital').value;
+      const phaseVal = +document.getElementById('s-phase').value;
+      const total = current + capital;
+
+      const newResult = computeITC(current, capital, phaseVal, corpType, 6000000);
+      const oldResult = showScenario ? computeITC(current, capital, phaseVal, corpType, 3000000) : null;
+
+      const corpLabels = { ccpc: 'CCPC', ecpc: 'Eligible public corp (ECPC)', other: 'Other corporation' };
+      const phaseMetricLabel = phaseMethod === 'capital'
+        ? 'Prior year taxable capital (associated group)'
+        : 'Average gross revenue — last 3 years (consolidated)';
+
+      const effRate = total > 0 ? (newResult.totalRefund / total * 100).toFixed(1) : '0.0';
+      const delta = oldResult ? newResult.totalRefund - oldResult.totalRefund : 0;
+
+      const provSel = document.getElementById('prov-select').value;
+      const provPdf = provSel ? computeProvincialDetail(provSel, current, capital, phaseVal, phaseMethod, corpType) : null;
+      const provCashPdf = provPdf ? provPdf.cashRefund : 0;
+      const combinedCashPdf = newResult.totalRefund + provCashPdf;
+
+      const generated = new Date().toLocaleString('en-CA', { dateStyle: 'long', timeStyle: 'short' });
+
+      let tableBody = '';
+      newResult.rows.forEach(r => {
+        tableBody += `<tr><td>${esc(r.label)}</td><td class="num">${esc(fmt(r.amount))}</td><td class="num">${esc(r.rate)}</td><td class="num">${esc(r.refundPct)}</td><td class="num">${esc(fmt(r.refund))}</td></tr>`;
+      });
+      tableBody += `<tr class="total"><td>New rules total</td><td class="num">${esc(fmt(total))}</td><td class="num">—</td><td class="num">—</td><td class="num">${esc(fmt(newResult.totalRefund))}</td></tr>`;
+      if (oldResult) {
+        tableBody += `<tr class="scenario total"><td>Old rules total ($3M limit)</td><td class="num">${esc(fmt(total))}</td><td class="num">—</td><td class="num">—</td><td class="num">${esc(fmt(oldResult.totalRefund))}</td></tr>`;
+        tableBody += `<tr class="total"><td>Difference (new − old)</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">+${esc(fmt(delta))}</td></tr>`;
+      }
+
+      let provSectionHtml = '';
+      if (provPdf) {
+        const ph = provPdf.phaseOuts.map(t => `<li>${esc(t)}</li>`).join('');
+        provSectionHtml = `
+          <div class="pr-section">
+            <div class="pr-section-title">Provincial credit — ${esc(provPdf.name)}</div>
+            <ul class="pr-kv">
+              <li><span>Rate &amp; base</span><span>${esc(provPdf.rateText)} — see narrative below</span></li>
+              <li><span>Provincial credit (estimated)</span><span>${esc(fmt(provPdf.creditAmount))}</span></li>
+              <li><span>Provincial cash refund (modeled)</span><span>${esc(fmt(provPdf.cashRefund))}</span></li>
+              <li><span>Refundability</span><span>${esc(provPdf.refundLabel)} — ${esc(provPdf.refundDetail)}</span></li>
+              <li><span>Combined federal + provincial cash</span><span>${esc(fmt(combinedCashPdf))}</span></li>
+            </ul>
+            <p class="pr-notes">${esc(provPdf.appliesTo)}</p>
+            ${ph ? `<ul class="pr-notes" style="margin:8px 0 0 1rem;padding:0">${ph}</ul>` : ''}
+          </div>
+        `;
+      } else {
+        let provBody = '';
+        provinces.forEach(p => {
+          const provRefund = current * p.rate;
+          provBody += `<tr><td>${esc(p.name)} (${esc(p.note)})</td><td class="num">${esc(fmt(provRefund))}</td></tr>`;
+        });
+        provSectionHtml = `
+          <div class="pr-section">
+            <div class="pr-section-title">Provincial credits — overview grid (current exp. × rate)</div>
+            <table>
+              <thead>
+                <tr><th>Province</th><th class="num">Indicative credit</th></tr>
+              </thead>
+              <tbody>${provBody}</tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      const notesHtml = newResult.notes.length
+        ? `<p class="pr-notes">${esc(newResult.notes.join(' '))}</p>`
+        : '';
+
+      document.getElementById('print-report').innerHTML = `
+        <h1>SR&amp;ED ITC Analysis</h1>
+        <p class="pr-subtitle">Prepared using Canada SR&amp;ED FES 2024 / Budget 2025 rules</p>
+        <div class="pr-meta">Generated: ${esc(generated)}</div>
+
+        <div class="pr-section">
+          <div class="pr-section-title">Inputs</div>
+          <ul class="pr-kv">
+            <li><span>Corporation type</span><span>${esc(corpLabels[corpType])}</span></li>
+            <li><span>Current expenditures</span><span>${esc(fmt(current))}</span></li>
+            <li><span>Capital expenditures</span><span>${esc(fmt(capital))}</span></li>
+            <li><span>Phase-out basis</span><span>${esc(phaseMethod === 'capital' ? 'Taxable capital (default)' : 'Avg. gross revenue — elected')}</span></li>
+            <li><span>${esc(phaseMetricLabel)}</span><span>${esc(fmt(phaseVal))}</span></li>
+            <li><span>Scenario comparison (old vs new rules)</span><span>${showScenario ? 'Yes' : 'No'}</span></li>
+            <li><span>Province (detailed estimate)</span><span>${provSel && provPdf ? esc(provPdf.name) : 'All provinces (overview)'}</span></li>
+          </ul>
+        </div>
+
+        <div class="pr-section">
+          <div class="pr-section-title">Federal summary</div>
+          <ul class="pr-kv">
+            <li><span>Total SR&amp;ED spend</span><span>${esc(fmtShort(total))}</span></li>
+            <li><span>Expenditure limit</span><span>${corpType === 'other' ? 'N/A' : esc(fmtShort(newResult.expLimit))}</span></li>
+            <li><span>ITC earned</span><span>${esc(fmtShort(newResult.totalITC))}</span></li>
+            <li><span>Federal cash refund</span><span>${esc(fmtShort(newResult.totalRefund))}${oldResult ? ' (+' + esc(fmtShort(delta)) + ' vs old rules)' : ''}</span></li>
+            <li><span>Combined total (Fed + prov. cash)</span><span>${esc(fmtShort(combinedCashPdf))}</span></li>
+            <li><span>Effective cash rate (federal)</span><span>${esc(effRate)}%</span></li>
+          </ul>
+        </div>
+
+        <div class="pr-section">
+          <div class="pr-section-title">Breakdown by bucket</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Bucket</th>
+                <th class="num">Amount</th>
+                <th class="num">ITC rate</th>
+                <th class="num">% refund</th>
+                <th class="num">Cash refund</th>
+              </tr>
+            </thead>
+            <tbody>${tableBody}</tbody>
+          </table>
+          ${notesHtml}
+        </div>
+
+        ${provSectionHtml}
+
+        <p class="pr-disclaimer">This calculator provides estimates only and does not constitute tax advice. Consult a qualified SR&amp;ED tax advisor for filing purposes.</p>
+      `;
+
+      window.print();
+    }
+
+    function resetAll() {
+      document.getElementById('s-current').value = 4000000;
+      document.getElementById('s-capital').value = 1000000;
+      document.getElementById('s-phase').value = 0;
+      document.getElementById('v-current').textContent = '$4,000,000';
+      document.getElementById('v-capital').textContent = '$1,000,000';
+      document.getElementById('v-phase').textContent = '$0';
+      corpType = 'ccpc';
+      phaseMethod = 'capital';
+      showScenario = false;
+      selectedProvince = '';
+      document.getElementById('prov-select').value = '';
+      document.getElementById('scenario-toggle').checked = false;
+      document.querySelectorAll('#corp-toggle .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.val === 'ccpc'));
+      document.querySelectorAll('#phase-toggle .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.val === 'capital'));
+      calc();
+    }
+
+    // ─── Event listeners ──────────────────────────────────────────────────────
+    document.querySelectorAll('#corp-toggle .toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#corp-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        corpType = btn.dataset.val;
+        calc();
+      });
+    });
+
+    document.querySelectorAll('#phase-toggle .toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#phase-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        phaseMethod = btn.dataset.val;
+        document.getElementById('phase-label').textContent = phaseMethod === 'capital'
+          ? 'Prior year taxable capital (associated group)'
+          : 'Average gross revenue — last 3 years (consolidated)';
+        calc();
+      });
+    });
+
+    ['s-current', 's-capital', 's-phase'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        const val = +document.getElementById(id).value;
+        document.getElementById('v-' + id.split('-')[1]).textContent = fmt(val);
+        calc();
+      });
+    });
+
+    document.getElementById('scenario-toggle').addEventListener('change', e => {
+      showScenario = e.target.checked;
+      calc();
+    });
+
+    document.getElementById('prov-select').addEventListener('change', () => calc());
+
+    document.getElementById('reset-defaults-link').addEventListener('click', e => {
+      e.preventDefault();
+      try {
+        const u = new URL(location.href);
+        u.search = '';
+        location.replace(u.href);
+      } catch {
+        window.location.href = location.pathname + location.hash;
+      }
+    });
+
+    document.getElementById('share-banner-close').addEventListener('click', () => {
+      document.getElementById('share-banner').hidden = true;
+    });
+
+    // ─── Init ─────────────────────────────────────────────────────────────────
+    const sharedScenarioOnLoad = location.search.length > 1;
+    loadFromURL();
+    calc();
+    if (sharedScenarioOnLoad) showShareBanner();
+  </script>
+</body>
+</html>
