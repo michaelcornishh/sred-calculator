@@ -995,9 +995,8 @@
       } else if (provId === 'bc') {
         name = 'British Columbia';
         rateText = '10%';
-        const qualified = current + capital;
-        appliesTo = 'BC SR&ED tax credit on qualified SR&ED expenditures (current and capital treated as qualified pool for this estimate).';
-        credit = qualified * 0.10;
+        appliesTo = 'BC SR&ED tax credit on qualified current expenditures only.';
+        credit = current * 0.10;
         cashRefund = 0;
         refundLabel = 'Non-refundable';
         refundDetail = 'BC credits are generally non-refundable ITCs (carryforward/carryback rules apply).';
@@ -1096,13 +1095,13 @@
       }
       if (currentAbove > 0) {
         const itc = currentAbove * 0.15;
-        const refund = corpT === 'ccpc' ? itc * 0.40 : 0;
+        const refund = (corpT === 'ccpc' || corpT === 'ecpc') ? itc * 0.40 : 0;
         totalITC += itc; totalRefund += refund;
         rows.push({ label: 'Current exp. — above limit', amount: currentAbove, rate: '15%', refundPct: corpT === 'ccpc' ? '40%' : '0%', refund, tag: corpT === 'ccpc' ? 'amber' : 'gray' });
       }
       if (capAbove > 0) {
         const itc = capAbove * 0.15;
-        const refund = corpT === 'ccpc' ? itc * 0.40 : 0;
+        const refund = (corpT === 'ccpc' || corpT === 'ecpc') ? itc * 0.40 : 0;
         totalITC += itc; totalRefund += refund;
         rows.push({ label: 'Capital exp. — above limit', amount: capAbove, rate: '15%', refundPct: corpT === 'ccpc' ? '40%' : '0%', refund, tag: corpT === 'ccpc' ? 'amber' : 'gray' });
       }
@@ -1154,7 +1153,7 @@
       tableHTML += `<div class="table-row total"><span>New rules total</span><span>${fmt(total)}</span><span>—</span><span>—</span><span>${fmt(newResult.totalRefund)}</span></div>`;
 
       if (oldResult) {
-        tableHTML += `<div class="table-row scenario-row total"><span>Old rules total ($3M limit, current exp. only)</span><span>${fmt(total)}</span><span>—</span><span>—</span><span>${fmt(oldResult.totalRefund)}</span></div>`;
+        tableHTML += `<div class="table-row scenario-row total"><span>Old rules total ($3M limit, current exp. only)</span><span>${fmt(current)}</span><span>—</span><span>—</span><span>${fmt(oldResult.totalRefund)}</span></div>`;
         tableHTML += `<div class="table-row total" style="color:var(--blue)"><span>Difference (new − old)</span><span>—</span><span>—</span><span>—</span><span>+${fmt(delta)}</span></div>`;
       }
       document.getElementById('breakdown-table').innerHTML = tableHTML;
