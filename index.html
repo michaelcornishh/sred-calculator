@@ -1119,7 +1119,7 @@
       const total = current + capital;
 
       const newResult = computeITC(current, capital, phaseVal, corpType, 6000000);
-      const oldResult = showScenario ? computeITC(current, capital, phaseVal, corpType, 3000000) : null;
+      const oldResult = showScenario ? computeITC(current, 0, phaseVal, corpType, 3000000) : null;
 
       const effRate = total > 0 ? (newResult.totalRefund / total * 100).toFixed(1) : '0.0';
       const delta = oldResult ? newResult.totalRefund - oldResult.totalRefund : 0;
@@ -1154,7 +1154,7 @@
       tableHTML += `<div class="table-row total"><span>New rules total</span><span>${fmt(total)}</span><span>—</span><span>—</span><span>${fmt(newResult.totalRefund)}</span></div>`;
 
       if (oldResult) {
-        tableHTML += `<div class="table-row scenario-row total"><span>Old rules total ($3M limit)</span><span>${fmt(total)}</span><span>—</span><span>—</span><span>${fmt(oldResult.totalRefund)}</span></div>`;
+        tableHTML += `<div class="table-row scenario-row total"><span>Old rules total ($3M limit, current exp. only)</span><span>${fmt(total)}</span><span>—</span><span>—</span><span>${fmt(oldResult.totalRefund)}</span></div>`;
         tableHTML += `<div class="table-row total" style="color:var(--blue)"><span>Difference (new − old)</span><span>—</span><span>—</span><span>—</span><span>+${fmt(delta)}</span></div>`;
       }
       document.getElementById('breakdown-table').innerHTML = tableHTML;
@@ -1452,7 +1452,7 @@
       const total = current + capital;
 
       const newResult = computeITC(current, capital, phaseVal, corpType, 6000000);
-      const oldResult = showScenario ? computeITC(current, capital, phaseVal, corpType, 3000000) : null;
+      const oldResult = showScenario ? computeITC(current, 0, phaseVal, corpType, 3000000) : null;
 
       const corpLabels = { ccpc: 'CCPC', ecpc: 'Eligible public corp (ECPC)', other: 'Other corporation' };
       const phaseMetricLabel = phaseMethod === 'capital'
@@ -1475,7 +1475,7 @@
       });
       tableBody += `<tr class="total"><td>New rules total</td><td class="num">${esc(fmt(total))}</td><td class="num">—</td><td class="num">—</td><td class="num">${esc(fmt(newResult.totalRefund))}</td></tr>`;
       if (oldResult) {
-        tableBody += `<tr class="scenario total"><td>Old rules total ($3M limit)</td><td class="num">${esc(fmt(total))}</td><td class="num">—</td><td class="num">—</td><td class="num">${esc(fmt(oldResult.totalRefund))}</td></tr>`;
+        tableBody += `<tr class="scenario total"><td>Old rules total ($3M limit, current exp. only)</td><td class="num">${esc(fmt(total))}</td><td class="num">—</td><td class="num">—</td><td class="num">${esc(fmt(oldResult.totalRefund))}</td></tr>`;
         tableBody += `<tr class="total"><td>Difference (new − old)</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">+${esc(fmt(delta))}</td></tr>`;
       }
 
