@@ -3,33 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SR&ED ITC Calculator — Canada 2024/2025 Rules</title>
+  <title>SR&ED ITC Calculator — Canada 2025/2026 Rules</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* Default: dark (terminal) palette */
+    /* Default: crisp bright terminal (light) */
     :root {
-      color-scheme: dark;
-      --bg: #1a1a1a;
-      --surface: #2a2a2a;
-      --surface-elev: #333333;
-      --border: #4a4a4a;
-      --border-strong: #5a5a5a;
-      --text: #e0e0e0;
-      --text-muted: #9a9a9a;
-      --text-faint: #6a6a6a;
-      --accent: #e53935;
-      --accent-dim: rgba(229, 57, 53, 0.15);
-      --accent-2: #689f38;
-      --accent-2-dim: rgba(104, 159, 56, 0.18);
-      --warn: #ffb74d;
-      --warn-dim: rgba(255, 183, 77, 0.12);
-      --info: #64b5f6;
-      --info-dim: rgba(100, 181, 246, 0.12);
-      --violet: #ba68c8;
+      color-scheme: light;
+      --bg: #f0eeea;
+      --surface: #ffffff;
+      --surface-elev: #f5f3f0;
+      --border: #d0cdc8;
+      --border-strong: #d0cdc8;
+      --slider-track: #d0cdc8;
+      --section-divider: #d0cdc8;
+      --table-stripe: #ebe8e4;
+      --text: #1a1a1a;
+      --text-muted: #666666;
+      --text-faint: #777777;
+      --accent: #b71c1c;
+      --accent-dim: rgba(183, 28, 28, 0.12);
+      --accent-2: #556b2f;
+      --accent-2-dim: rgba(85, 107, 47, 0.12);
+      --warn: #b8860b;
+      --warn-dim: rgba(184, 134, 11, 0.1);
+      --info: #37474f;
+      --info-dim: rgba(55, 71, 79, 0.08);
+      --violet: #6a1b9a;
       --text2: var(--text-muted);
       --text3: var(--text-faint);
       /* Legacy names (inline styles in generated markup) */
@@ -43,26 +46,29 @@
       --red-dim: var(--accent-dim);
     }
 
-    @media (prefers-color-scheme: light) {
+    @media (prefers-color-scheme: dark) {
       :root {
-        color-scheme: light;
-        --bg: #cccccc;
-        --surface: #b0b0b0;
-        --surface-elev: #a3a3a3;
-        --border: #505050;
-        --border-strong: #404040;
-        --text: #1f1f1f;
-        --text-muted: #4a4a4a;
-        --text-faint: #5c5c5c;
+        color-scheme: dark;
+        --bg: #1a1a1a;
+        --surface: #2a2a2a;
+        --surface-elev: #333333;
+        --border: #4a4a4a;
+        --border-strong: #5a5a5a;
+        --slider-track: #4a4a4a;
+        --section-divider: #4a4a4a;
+        --table-stripe: rgba(255, 255, 255, 0.05);
+        --text: #e0e0e0;
+        --text-muted: #9a9a9a;
+        --text-faint: #6a6a6a;
         --accent: #b71c1c;
-        --accent-dim: rgba(183, 28, 28, 0.12);
-        --accent-2: #556b2f;
-        --accent-2-dim: rgba(85, 107, 47, 0.15);
-        --warn: #b8860b;
-        --warn-dim: rgba(184, 134, 11, 0.12);
-        --info: #37474f;
-        --info-dim: rgba(55, 71, 79, 0.1);
-        --violet: #6a1b9a;
+        --accent-dim: rgba(183, 28, 28, 0.2);
+        --accent-2: #8bc34a;
+        --accent-2-dim: rgba(139, 195, 74, 0.15);
+        --warn: #ffb74d;
+        --warn-dim: rgba(255, 183, 77, 0.12);
+        --info: #90caf9;
+        --info-dim: rgba(144, 202, 249, 0.12);
+        --violet: #ce93d8;
         --text2: var(--text-muted);
         --text3: var(--text-faint);
       }
@@ -92,8 +98,8 @@
 
     .section-rule {
       border: none;
-      height: 2px;
-      background: var(--accent);
+      height: 1px;
+      background: var(--section-divider);
       margin: 0;
       width: 100%;
     }
@@ -263,12 +269,12 @@
     }
     input[type=range]::-webkit-slider-runnable-track {
       height: 2px;
-      background: var(--border-strong);
+      background: var(--slider-track);
       border: none;
     }
     input[type=range]::-moz-range-track {
       height: 2px;
-      background: var(--border-strong);
+      background: var(--slider-track);
       border: none;
     }
     input[type=range]::-moz-range-progress {
@@ -403,12 +409,7 @@
       border-bottom: 2px solid var(--border-strong);
     }
     .table-row:not(.header):nth-child(even) {
-      background: rgba(0, 0, 0, 0.12);
-    }
-    @media (prefers-color-scheme: light) {
-      .table-row:not(.header):nth-child(even) {
-        background: rgba(0, 0, 0, 0.06);
-      }
+      background: var(--table-stripe);
     }
     .table-row.total {
       font-weight: 700;
@@ -780,8 +781,8 @@
 
   <div class="container">
     <header class="site-header">
-      <h1>SR&amp;ED ITC Calculator <span class="badge">2024 / 2025 Rules</span></h1>
-      <p>Federal investment tax credit — FES 2024 + Budget 2025</p>
+      <h1>SR&amp;ED ITC Calculator <span class="badge">2025 / 2026 Rules</span></h1>
+      <p>Federal investment tax credit — Budget 2025 + Bill C-15 (Royal Assent March 2026)</p>
     </header>
 
     <hr class="section-rule" />
@@ -1520,7 +1521,7 @@
 
       document.getElementById('print-report').innerHTML = `
         <h1>SR&amp;ED ITC Analysis</h1>
-        <p class="pr-subtitle">Prepared using Canada SR&amp;ED FES 2024 / Budget 2025 rules</p>
+        <p class="pr-subtitle">Prepared using Canada SR&amp;ED 2025/2026 rules — Budget 2025 + Bill C-15 (Royal Assent March 2026)</p>
         <div class="pr-meta">Generated: ${esc(generated)}</div>
 
         <div class="pr-section">
